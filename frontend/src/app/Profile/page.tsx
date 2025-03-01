@@ -126,7 +126,6 @@ const NewProfile: React.FC = () => {
               </label>
               <input
                 type="file"
-                id="logo"
                 accept="image/*"
                 onChange={handleLogoChange}
                 required
