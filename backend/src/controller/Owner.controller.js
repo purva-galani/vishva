@@ -4,7 +4,7 @@ const path = require('path');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, '../../../uploads'));
+    cb(null, path.join(__dirname, '../../uploads'));
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
@@ -35,8 +35,8 @@ const addOwner = async (req, res) => {
         documentNumber,
       } = req.body;
 
-      // Replace backslashes with forward slashes in the logo path
-      const logoPath = req.file ? req.file.path.replace(/\\/g, '/') : null;
+      // Extracting only the '/uploads/...' part from the full path
+      const logoPath = req.file ? `/uploads/${path.basename(req.file.path)}` : null;
 
       const newOwner = new Owner({
         logo: logoPath,
