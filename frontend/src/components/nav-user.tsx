@@ -112,12 +112,42 @@ export function NavUser() {
   const onSubmit = async (data: Owner) => {
     setIsSubmitting(true);
     try {
-      await axios.put(`http://localhost:8000/api/v1/owner/updateOwner/${editOwner?._id}`, data);
+      const formData = new FormData();
+  
+      // Append all fields to formData
+      Object.keys(data).forEach((key) => {
+        if (key !== 'logo') {
+          const value = data[key as keyof Owner];
+          if (value !== undefined && value !== null) {
+            formData.append(key, value as string);
+          }
+        }
+      });
+  
+      // Append the logo file if it exists
+      if (logoPreview && logoPreview.startsWith('data:image')) {
+        const blob = await fetch(logoPreview).then((res) => res.blob());
+        formData.append('logo', blob, 'logo.png');
+      }
+  
+      // Log FormData for debugging
+      for (const [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+  
+      await axios.put(`http://localhost:8000/api/v1/owner/updateOwner/${editOwner?._id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+  
       setIsEditing(false);
       setEditOwner(null);
       const response = await axios.get("http://localhost:8000/api/v1/owner/getAllOwners");
       setOwners(response.data.data);
-      setFilteredOwners(response.data.data.filter((owner: { emailAddress: string | null; }) => owner.emailAddress === localStorage.getItem("userEmail")));
+      setFilteredOwners(
+        response.data.data.filter((owner: { emailAddress: string | null }) => owner.emailAddress === localStorage.getItem("userEmail"))
+      );
     } catch (error) {
       console.error("Failed to update owner:", error);
     } finally {
@@ -203,12 +233,11 @@ export function NavUser() {
                     <div><strong>Owner Name:</strong> {currentOwner.ownerName}</div>
                     <div><strong>Email:</strong> {currentOwner.emailAddress}</div>
                     <div><strong>Contact:</strong> {currentOwner.contactNumber}</div>
-                    <p>
-                        <strong>Website:</strong>
-                        <a href={currentOwner.website} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline hover:text-blue-700">
+                    <p><strong>Website:</strong>
+                        <a href={currentOwner.website} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
                           {currentOwner.website}
                         </a>
-                      </p>
+                    </p>
                     <div><strong>Document Type:</strong> {currentOwner.documentType}</div>
                     <div><strong>Document Number:</strong> {currentOwner.documentNumber || "N/A"}</div>
                     <div><strong>PAN Number:</strong> {currentOwner.panNumber}</div>
@@ -252,7 +281,6 @@ export function NavUser() {
                 id="logo"
                 accept="image/*"
                 onChange={handleLogoChange}
-                required
                 style={{ display: 'none' }}
               />
             </div>  
