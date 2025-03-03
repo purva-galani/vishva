@@ -57,6 +57,7 @@ export function NavUser({
   user,
 }: {
   user: {
+    _id: any;
     name: string;
     email: string;
     avatar: string;
