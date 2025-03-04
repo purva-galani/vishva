@@ -66,7 +66,6 @@ const addOwner = async (req, res) => {
   });
 };
 
-
 // Update Owner API
 const updateOwner = async (req, res) => {
   upload(req, res, async (err) => {

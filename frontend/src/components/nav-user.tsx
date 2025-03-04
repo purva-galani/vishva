@@ -166,7 +166,7 @@ export function NavUser() {
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton size="lg" className="data-[state=open]:bg-sidebar-accent">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={currentOwner?.logo} alt={currentOwner?.ownerName || "User"} />
+                  <AvatarImage src={`http://localhost:8000/uploads/${currentOwner.logo}`} alt={currentOwner?.ownerName || "User"} />
                   <AvatarFallback className="rounded-lg">
                     {currentOwner?.ownerName?.charAt(0).toUpperCase() || "U"}
                   </AvatarFallback>
@@ -188,7 +188,7 @@ export function NavUser() {
                 <DropdownMenuLabel className="p-0 font-normal">
                   <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                     <Avatar className="h-8 w-8 rounded-lg">
-                      <AvatarImage src={currentOwner?.logo} alt={currentOwner?.ownerName || "User"} />
+                      <AvatarImage src={`http://localhost:8000/uploads/${currentOwner.logo}`} alt={currentOwner?.ownerName || "User"} />
                       <AvatarFallback className="rounded-lg">
                         {currentOwner?.ownerName?.charAt(0).toUpperCase() || "U"}
                       </AvatarFallback>
@@ -271,7 +271,7 @@ export function NavUser() {
                 Logo
                 <br />
                 <img
-                 src={logoPreview || 'https://via.placeholder.com/80'}
+                 src={logoPreview || `http://localhost:8000/uploads/${currentOwner.logo}`}
                  style={{ width: '80px', height: '80px', borderRadius: '50%', border: '1px solid #ccc' }}
                  alt="Logo Preview"
                 />
