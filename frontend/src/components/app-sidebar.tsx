@@ -96,7 +96,7 @@ const data = {
       items: [
         {
           title: "Create",
-          url: "/invoice",
+          url: "/invoice/invoiceForm",
         },
         {
           title: "List",
@@ -269,6 +269,18 @@ const data = {
         {
           title: "List",
           url: "",
+        },
+      ],
+    },
+    {
+      title: "Calendar",
+      url: "#",
+      icon: CirclePlay,
+      isActive: window.location.pathname === "",
+      items: [
+        {
+          title: "Calendar",
+          url: "/calendar",
         },
       ],
     },

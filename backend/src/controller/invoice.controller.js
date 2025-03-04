@@ -96,9 +96,6 @@ const remindEvent = async () => {
 // Schedule the cron job to run daily at midnight (IST)
 cron.schedule('0 * * * *', remindEvent); // Runs at midnight IST (18:30 UTC)
 
-
-
-
 const invoiceAdd = async (req, res) => {
     try {
         const { 
