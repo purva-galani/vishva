@@ -29,6 +29,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import SearchBar from '@/components/globalSearch'
 import { Selection } from "@nextui-org/react";
 import { SortDescriptor } from "@nextui-org/react"
+import Notification from '@/components/notification';
 
 
 interface Lead {
@@ -612,6 +613,9 @@ export default function LeadPage() {
                     <div className="flex-1 flex justify-end space-x-4 mr-10">
                             <div  className="w-52">
                                 <SearchBar/>
+                            </div>
+                            <div>
+                                <Notification/>
                             </div>
                         </div>
                 </header>

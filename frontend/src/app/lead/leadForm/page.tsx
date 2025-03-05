@@ -23,6 +23,7 @@ import {
     SidebarTrigger,
   } from "@/components/ui/sidebar"
   import SearchBar from '@/components/globalSearch'
+  import Notification from '@/components/notification';
 
   export const columns = [
     {name: "ID", uid: "id", sortable: true},
@@ -133,11 +134,14 @@ export default function LeadForm() {
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
-            <div className="flex-1 flex justify-end space-x-4 mr-10">
-                            <div  className="w-52">
-                                <SearchBar/>
-                            </div>
-                        </div>
+            <div className="flex items-center space-x-4 ml-auto mr-4">
+                <div>
+                    <SearchBar/>
+                </div>
+                <div>
+                    <Notification/>
+                </div>
+          </div>
           </header>
         </SidebarInset>
 
