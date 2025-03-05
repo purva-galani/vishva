@@ -206,58 +206,133 @@ export function NavUser() {
       </SidebarMenu>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Profile Details</DialogTitle>
-            <DialogDescription>
-              {loading ? (
-                <div className="text-center text-gray-600 text-lg">Loading...</div>
-              ) : error ? (
-                <div className="text-center text-red-600 text-lg">{error}</div>
-              ) : currentOwner ? (
-                <div>
-                  <button type="button" onClick={() => setOpen(false)} className="absolute top-2 right-2 text-gray-600 hover:text-red-500">
-                    <MdCancel size={24} />
-                  </button>
-                  <div className="flex items-center justify-center mb-6">
-                    {currentOwner.logo ? (
-                      <img src={`http://localhost:8000/uploads/${currentOwner.logo}`} alt="Company Logo" className="w-24 h-24 object-contain rounded-full border border-gray-300" />
-                    ) : (
-                      <div className="w-24 h-24 bg-gray-300 flex items-center justify-center text-gray-700 rounded-full border border-gray-300">
-                        No Logo
-                      </div>
-                    )}
+      <DialogContent className="w-full max-w-3xl h-auto min-h-[500px] p-6 rounded-lg shadow-lg bg-white dark:bg-[hsl(var(--background))]">
+      <DialogHeader>
+      <DialogTitle className="text-xl md:text-2xl font-bold text-center text-gray-800 dark:text-white">
+        Profile Details
+      </DialogTitle>
+      <hr className="my-3 border-gray-300 dark:border-gray-700" /> {/* Dark mode support */}
+      <DialogDescription>
+        {loading ? (
+          <div className="text-center text-gray-600 dark:text-gray-400 text-lg">Loading...</div>
+        ) : error ? (
+          <div className="text-center text-red-600 text-lg">{error}</div>
+        ) : currentOwner ? (
+          <div className="relative h-full">
+            <div className="flex flex-col md:flex-row items-center md:items-start md:space-x-8">
+              
+              {/* Left Column: Logo + Owner Info */}
+              <div className="w-full md:w-1/3 flex flex-col items-center mt-4 md:mt-6">
+                <div className="w-32 h-32 md:w-44 md:h-44 border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden flex items-center justify-center bg-gray-100 dark:bg-gray-800 mb-6 md:mb-8">
+                  {currentOwner.logo ? (
+                    <img
+                      src={`http://localhost:8000/uploads/${currentOwner.logo}`}
+                      alt="Company Logo"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span className="text-gray-600 dark:text-gray-400 text-base md:text-lg">No Logo</span>
+                  )}
+                </div>
+
+                {/* Owner Name & Email Below Logo */}
+                <div className="mt-2 text-center">
+                  <div className="text-lg md:text-xl font-bold font-serif text-gray-800 dark:text-white">
+                    {currentOwner.ownerName}
                   </div>
-                  <div className="space-y-3 text-gray-700">
-                    <div><strong>Company Name:</strong> {currentOwner.companyName}</div>
-                    <div><strong>Owner Name:</strong> {currentOwner.ownerName}</div>
-                    <div><strong>Email:</strong> {currentOwner.emailAddress}</div>
-                    <div><strong>Contact:</strong> {currentOwner.contactNumber}</div>
-                    <p><strong>Website:</strong>
-                        <a href={currentOwner.website} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
-                          {currentOwner.website}
-                        </a>
-                    </p>
-                    <div><strong>Document Type:</strong> {currentOwner.documentType}</div>
-                    <div><strong>Document Number:</strong> {currentOwner.documentNumber || "N/A"}</div>
-                    <div><strong>PAN Number:</strong> {currentOwner.panNumber}</div>
-                    <div><strong>Business Registration:</strong> {currentOwner.businessRegistration}</div>
-                    <div><strong>Company Type:</strong> {currentOwner.companyType}</div>
-                    <div><strong>Employee Size:</strong> {currentOwner.employeeSize}</div>
-                    <div className="flex justify-end mt-6">
-                      <button className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600" onClick={() => handleEditClick(currentOwner)}>
-                        Edit
-                      </button>
-                    </div>
+                  <div className="text-sm md:text-lg font-medium text-gray-600 dark:text-gray-400">
+                    {currentOwner.emailAddress}
                   </div>
                 </div>
-              ) : (
-                <div className="text-center text-gray-600 text-lg">No owners found.</div>
-              )}
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+              </div>
+
+              {/* Right Column: Owner Details */}
+              <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-4 text-gray-700 dark:text-gray-300 py-4 md:py-6 text-base md:text-sm">
+                <div>
+                  <span className="font-bold">Owner Name:</span>
+                  <span className="block">{currentOwner.ownerName}</span>
+                </div>
+
+                <div>
+                  <span className="font-bold">Email:</span>
+                  <span className="block">{currentOwner.emailAddress}</span>
+                </div>
+
+                <div>
+                  <span className="font-bold">Company Name:</span>
+                  <span className="block">{currentOwner.companyName}</span>
+                </div>
+
+                <div>
+                  <span className="font-bold">Contact:</span>
+                  <span className="block">{currentOwner.contactNumber}</span>
+                </div>
+
+                <div>
+                  <span className="font-bold">Document Type:</span>
+                  <span className="block">{currentOwner.documentType}</span>
+                </div>
+
+                <div>
+                  <span className="font-bold">Document Number:</span>
+                  <span className="block">{currentOwner.documentNumber || "N/A"}</span>
+                </div>
+
+                <div>
+                  <span className="font-bold">PAN Number:</span>
+                  <span className="block">{currentOwner.panNumber}</span>
+                </div>
+
+                <div>
+                  <span className="font-bold">Business Registration:</span>
+                  <span className="block">{currentOwner.businessRegistration}</span>
+                </div>
+
+                <div>
+                  <span className="font-bold">Company Type:</span>
+                  <span className="block">{currentOwner.companyType}</span>
+                </div>
+
+                <div>
+                  <span className="font-bold">Employee Size:</span>
+                  <span className="block">{currentOwner.employeeSize}</span>
+                </div>
+
+                {/* Website moved to last row */}
+                {currentOwner.website && (
+                  <div className="col-span-1 md:col-span-2">
+                    <span className="font-bold">Website:</span>
+                    <a
+                      href={currentOwner.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500 dark:text-blue-400 underline"
+                    >
+                      {currentOwner.website}
+                    </a>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Edit Button */}
+            <div className="flex justify-center md:justify-end mt-6">
+              <button
+                className="bg-blue-500 text-white px-5 py-2 text-base md:text-lg rounded-lg hover:bg-blue-600"
+                onClick={() => handleEditClick(currentOwner)}
+              >
+                Edit
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="text-center text-gray-600 dark:text-gray-400 text-lg">No owners found.</div>
+        )}
+      </DialogDescription>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>
+
 
       <Dialog open={isEditing} onOpenChange={setIsEditing}>
   <DialogContent>

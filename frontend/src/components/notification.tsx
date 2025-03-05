@@ -39,7 +39,7 @@ const Notification = () => {
           );
 
           // Sort: show errors first, then newest first
-          notificationsWithStars.sort((a: { error: any; createdAt: string | number | Date; }, b: { error: any; createdAt: string | number | Date; }) => {
+          notificationsWithStars.sort((a, b) => {
             if (a.error && !b.error) return -1;
             if (!a.error && b.error) return 1;
             return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
@@ -145,7 +145,7 @@ const Notification = () => {
       </div>
 
       {isNotificationVisible && (
-        <div className="fixed top-0 right-0 w-full sm:w-96 h-full bg-gray-100 dark:bg-[#1a1a1a] shadow-lg border-l border-gray-200 dark:border-gray-700 z-50 p-4">
+        <div className="fixed top-0 right-0 w-full sm:w-96 h-full bg-gray-100 dark:bg-[#1a1a1a] shadow-lg border-l border-gray-200 dark:border-gray-700 z-50 p-4 overflow-y-auto hide-scrollbar">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
               Reminders
@@ -185,11 +185,11 @@ const Notification = () => {
                   return (
                     <li
                       key={notification._id}
-                      className={`flex justify-between items-start p-4 rounded-lg shadow-md transition-all cursor-pointer ${
+                      className={`flex justify-between items-start p-4 rounded-lg shadow-[4px_4px_10px_rgba(0,0,0,0.1),-2px_-2px_5px_rgba(0,0,0,0.05)] border border-gray-300 dark:border-gray-700 transition-all cursor-pointer ${
                         notification.starred
                           ? "bg-yellow-50 text-yellow-800 border-l-4 border-yellow-500 dark:bg-yellow-900 dark:text-yellow-100"
                           : notification.type === "reminder"
-                          ? "bg-blue-50 text-blue-800 border-l-4 border-blue-500 dark:bg-blue-900 dark:text-blue-100"
+                          ? "bg-blue-50 text-gray-800 border-l-4 border-gray-500 dark:bg-gray-900 dark:text-gray-100"
                           : notification.type === "calendar"
                           ? "bg-red-50 text-red-800 border-l-4 border-red-500 dark:bg-red-900 dark:text-red-100"
                           : "bg-gray-50 text-gray-800 border-l-4 border-gray-400 dark:bg-gray-800 dark:text-gray-200"
@@ -204,12 +204,21 @@ const Notification = () => {
                           </span>
                         </div>
                       </Link>
-                      <button
-                        onClick={() => toggleStar(notification._id)}
-                        className="mr-2 text-yellow-500 hover:text-yellow-700 dark:text-yellow-300 dark:hover:text-yellow-500"
-                      >
-                        {notification.starred ? "★" : "☆"}
-                      </button>
+                      <div className="relative group">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleStar(notification._id);
+                          }}
+                          className="mr-2 text-yellow-500 hover:text-yellow-700 dark:text-yellow-300 dark:hover:text-yellow-500"
+                        >
+                          {notification.starred ? "★" : "☆"}
+                        </button>
+                        {/* Tooltip */}
+                        <span className="absolute left-1/2 -translate-x-1/2 top-full mt-2 hidden group-hover:block text-xs bg-gray-800 text-white px-2 py-1 rounded shadow-md">
+                        Mark as Important
+                        </span>
+                      </div>
                       <button
                         onClick={() => handleDelete(notification._id)}
                         className="text-red-600 bg-red-100 border border-red-500 hover:bg-red-200 text-sm font-bold py-1 px-3 rounded"
